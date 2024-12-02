@@ -1,25 +1,38 @@
 package basic;
 
 public class Materie {
-	private String name;
-    private Profesor profesor;
-	public Materie() {
-		
-	}
-	public Materie(String name, Profesor profesor) {
-        this.name = name;
-        this.profesor = profesor;
-    }
+	private String id;
+	private String denumire;
 
-    public String getName() {
-        return name;
-    }
-
-    public Profesor getProfesor() {
-        return profesor;
-    }
 	@Override
 	public String toString() {
-		return "Materie [name=" + name + ", profesor=" + profesor + "]";
+		return "Materie [id=" + id + ", denumire=" + denumire + "]";
 	}
+
+	public Materie() {
+
+	}
+
+	public Materie(String id, String denumire) {
+		super();
+		this.id = id;
+		this.denumire = denumire;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getDenumire() {
+		return denumire;
+	}
+
+	public void setDenumire(String denumire) {
+		this.denumire = denumire;
+	}
+
 }

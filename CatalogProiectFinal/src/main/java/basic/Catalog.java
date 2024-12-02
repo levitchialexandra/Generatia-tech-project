@@ -67,10 +67,10 @@ public class Catalog {
     // Afișează toate materiile predate de un profesor
     public void displayProfessorSubjects(String professorId) {
         System.out.println("Materii predate de profesorul cu ID-ul: " + professorId);
-        for (Materie subject : subjects) {
-            if (subject.getProfesor().getId().equals(professorId)) {
-                System.out.println(subject.getName());
-            }
-        }
+      //  for (Materie subject : subjects) {
+          //  if (subject.getProfesor().getId().equals(professorId)) {
+                //System.out.println(subject.getName());
+         //   }
+       // }
     }
 }

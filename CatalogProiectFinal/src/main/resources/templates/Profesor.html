@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" content="text/html" http-equiv="Content-type">
+<title>Profesor</title>
+</head>
+<body>
+	<form action="#" th:action="@{/profesorAdd}" th:object="${profesor}"
+		method="post">
+
+		<fieldset>
+			<table>
+				<tr>
+					<th>ID</th>
+
+					<td><input th:field="*{id}" /></td>
+				</tr>
+				<tr>
+					<th>Nume</th>
+
+					<td><input th:field="*{nume}" /></td>
+				</tr>
+				<tr>
+					<th>Prenume</th>
+
+					<td><input th:field="*{prenume}" /></td>
+				</tr>
+				<!--<tr>
+					<th>Materii</th>
+					<td><th:block th:each="matrie:${materii}">
+							<input type="checkbox" name="mat" th:value="${materie.id}" />
+							<label th:text="${materie.denumire}"></label>
+						</th:block></td>
+				</tr>-->
+				<!--<tr>
+			<th>Materie</th>
+		</tr>
+		<td><input th:field="*{profesor}" /></td>
+		</tr>  -->
+
+			</table>
+			<input type="submit" id="btnAddProfesor" th:value="Adauga" />
+
+		</fieldset>
+	</form>
+</body>
+</html>

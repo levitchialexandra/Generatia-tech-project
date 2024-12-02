@@ -1,41 +1,62 @@
 package basic;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class Profesor {
+public class Profesor extends Materie {
 	private String id;
-	private String name;
-	private List<String> subjects;
-
-	@Override
-	public String toString() {
-		return "Profesor [id=" + id + ", name=" + name + ", subjects=" + subjects + "]";
-	}
+	private String nume;
+	private String prenume;
+	private List<Materie> materii;
 
 	public Profesor() {
 
 	}
 
-	public Profesor(String id, String name) {
+	public List<Materie> getSubjects() {
+		return materii;
+	}
+
+	public void addSubject(Materie materie) {
+		materii.add(materie);
+	}
+
+	public Profesor(String id, String nume, String prenume, List<Materie> materii) {
+		super();
 		this.id = id;
-		this.name = name;
-		this.subjects = new ArrayList<>();
+		this.nume = nume;
+		this.prenume = prenume;
+		this.materii = materii;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Profesor [id=" + id + ", nume=" + nume + ", prenume=" + prenume + ", materii=" + materii + "]";
 	}
 
 	public String getId() {
 		return id;
 	}
 
-	public String getName() {
-		return name;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public List<String> getSubjects() {
-		return subjects;
+	public String getNume() {
+		return nume;
 	}
 
-	public void addSubject(String subject) {
-		subjects.add(subject);
+	public void setNume(String nume) {
+		this.nume = nume;
 	}
+
+	public String getPrenume() {
+		return prenume;
+	}
+
+	public void setPrenume(String prenume) {
+		this.prenume = prenume;
+	}
+
 }

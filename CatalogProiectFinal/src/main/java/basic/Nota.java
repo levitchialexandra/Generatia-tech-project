@@ -1,32 +1,47 @@
 package basic;
 
+import java.util.Date;
+
 public class Nota {
-	 private Student student;
-	    private Materie subject;
-	    private double value;
+	private Student student;
+	private Materie subject;
+	private double value;
+	private Date data;
+
 	public Nota() {
-		// TODO Auto-generated constructor stub
+	
 	}
-	public Nota(Student student, Materie subject, double value) {
-        this.student = student;
-        this.subject = subject;
-        this.value = value;
-    }
 
-    public Student getStudent() {
-        return student;
-    }
+	public Nota(Student student, Materie subject, double value, Date data) {
+		this.student = student;
+		this.subject = subject;
+		this.value = value;
+		this.data = data;
+	}
 
-    public Materie getSubject() {
-        return subject;
-    }
+	public Student getStudent() {
+		return student;
+	}
 
-    public double getValue() {
-        return value;
-    }
+	public Materie getSubject() {
+		return subject;
+	}
+
+	public Date getData() {
+		return data;
+	}
+
+	public void setData(Date data) {
+		this.data = data;
+	}
+
+	public double getValue() {
+		return value;
+	}
+
 	@Override
 	public String toString() {
-		return "Nota [student=" + student + ", subject=" + subject + ", value=" + value + "]";
+		return "Nota [student=" + student + ", subject=" + subject + ", value=" + value + ", data=" + data + "]";
 	}
 
 }
