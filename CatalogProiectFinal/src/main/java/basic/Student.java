@@ -1,38 +1,41 @@
 package basic;
 
+import java.util.List;
+
+import jakarta.persistence.*;
+
+@Entity
 public class Student {
-	private String id;
+	@Id
+	@GeneratedValue
+	private Long id;
 	private String nume;
 	private String prenume;
 	private String clasa;
-	private String nrMatricol;
-	private String cnp;
-	
-	public String getNrMatricol() {
-		return nrMatricol;
-	}
 
-	public void setNrMatricol(String nrMatricol) {
-		this.nrMatricol = nrMatricol;
-	}
-
-	public String getCnp() {
-		return cnp;
-	}
-
-	public void setCnp(String cnp) {
-		this.cnp = cnp;
-	}
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Note> notes;
 
 	public Student() {
-
 	}
 
-	public String getId() {
+	public Student(Long id, String nume, String prenume, String clasa) {
+		super();
+		this.id = id;
+		this.nume = nume;
+		this.prenume = prenume;
+		this.clasa = clasa;
+	}
+
+	public String FullName() {
+		return nume + " " + prenume;
+	}
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -60,23 +63,56 @@ public class Student {
 		this.clasa = clasa;
 	}
 
-	
-
-	public Student(String id, String nume, String prenume, String clasa, String nrMatricol, String cnp) {
-		super();
-		this.id = id;
-		this.nume = nume;
-		this.prenume = prenume;
-		this.clasa = clasa;
-		this.nrMatricol = nrMatricol;
-		this.cnp = cnp;
+	public List<Note> getNotes() {
+		return notes;
 	}
 
-	@Override
-	public String toString() {
-		return "Student [id=" + id + ", nume=" + nume + ", prenume=" + prenume + ", clasa=" + clasa + "]";
+	public void setNotes(List<Note> notes) {
+		this.notes = notes;
 	}
 
-	
+	public void updateNota(Long notaId, Double newValoare) {
+		for (Note nota : notes) {
+			if (nota.getId().equals(notaId)) {
+				nota.setGrade(newValoare);
+				break;
+			}
+		}
+	}
 
+	public void updateNota(Long notaId, Note newValoare) {
+		for (Note nota : notes) {
+			
+			if (nota.getId().equals(notaId)) {
+				
+				nota.setGrade(newValoare.getGrade());
+				nota.setObservations(newValoare.getObservations());
+				nota.setDate(newValoare.getDate());
+				break;
+			}
+			
+		}
+	}
+	
+	public Note getNotaById(Long notaId) {
+		for (Note nota : notes) {
+			
+			if (nota.getId().equals(notaId)) {
+				
+				return nota;
+			}
+			
+		}
+		return new Note();
+	}
+
+	public void stergeNota(Long notaId) {
+		for (Note nota : notes) {
+			if (nota.getId().equals(notaId)) {
+				notes.remove(nota);
+				break;
+			}
+		}
+
+	}
 }

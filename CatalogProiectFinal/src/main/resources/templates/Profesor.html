@@ -1,47 +1,100 @@
+
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8" content="text/html" http-equiv="Content-type">
-<title>Profesor</title>
+<meta charset="UTF-8">
+<title>Lista Elevilor</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
-	<form action="#" th:action="@{/profesorAdd}" th:object="${profesor}"
-		method="post">
+	<h1>Welcome Teacher</h1>
+	<p>You have teacher privileges.</p>
+	<div class="container mt-4">
+		<h2>Lista Elevilor</h2>
+		<form th:action="@{/profesor}" method="get">
+			<div class="form-group">
+				<label for="clasa">Selectează Clasa</label> <select
+					onchange="this.form.submit()" class="form-control" id="grade"
+					name="clasa">
+					<option value="">Toate clasele</option>
+					<option th:each="grade : ${grades}" th:value="${grade}"
+						th:selected="${grade == selectedGrade}" th:text="${grade}"></option>
+				</select>
+			</div>
+			<button type="submit" class="btn btn-primary">Filtrează</button>
+		</form>
+		<!-- Dacă nu sunt elevi -->
+		<div th:if="${#lists.isEmpty(students)}">
+			<p>Nu sunt elevi de afisat.</p>
+		</div>
 
-		<fieldset>
-			<table>
+		<!-- Tabelul cu elevi -->
+		<table class="table">
+			<thead>
 				<tr>
 					<th>ID</th>
-
-					<td><input th:field="*{id}" /></td>
-				</tr>
-				<tr>
 					<th>Nume</th>
-
-					<td><input th:field="*{nume}" /></td>
+					<th >Prenume</th>
+					<th>Clasa</th>
 				</tr>
-				<tr>
-					<th>Prenume</th>
+			</thead>
+			<tbody>
+				<!-- Iterăm prin lista de elevi -->
+				<tr th:each="student : ${students}">
+					<td th:text="${student.id}"></td>
+					<td th:text="${student.nume}"></td>
+					<td th:text="${student.prenume}"></td>
+					<td th:text="${student.clasa}"></td>
 
-					<td><input th:field="*{prenume}" /></td>
+					<!-- Afișăm notele deja adăugate pentru elev -->
+					<td>
+						<ul>
+							<li th:each="note : ${student.notes}">Materie: <span
+								th:text="${note.subject.denumire}"></span> Nota: <span
+								th:text="${note.grade}"></span> - Data: <span
+								th:text="${note.date}"></span> <br>Observații: <span
+								th:text="${note.observations}"></span>
+							</li>
+						</ul>
+					</td>
+					<td>
+						<form th:action="@{/profesoraddNote}" method="post">
+							<input type="hidden" name="studentId" th:value="${student.id}" />
+							<div class="form-group">
+								<label for="subject">Materie:</label> <select name="subjectId"
+									class="form-control" required>
+									<option th:each="subject : ${subjects}"
+										th:value="${subject.denumire}" th:text="${subject.denumire}">Selectează
+										Materia</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="grade">Nota:</label> <input type="number" step="1"
+									name="grade" class="form-control" required />
+							</div>
+							<div class="form-group">
+								<label for="date">Data:</label> <input type="date" name="date"
+									class="form-control" required />
+							</div>
+							<div class="form-group">
+								<label for="observations">Observații:</label>
+								<textarea name="observations" class="form-control" required></textarea>
+							</div>
+							<button type="submit" class="btn btn-success">Adaugă
+								Notă</button>
+						</form>
+					</td>
 				</tr>
-				<!--<tr>
-					<th>Materii</th>
-					<td><th:block th:each="matrie:${materii}">
-							<input type="checkbox" name="mat" th:value="${materie.id}" />
-							<label th:text="${materie.denumire}"></label>
-						</th:block></td>
-				</tr>-->
-				<!--<tr>
-			<th>Materie</th>
-		</tr>
-		<td><input th:field="*{profesor}" /></td>
-		</tr>  -->
+			</tbody>
+		</table>
+	</div>
 
-			</table>
-			<input type="submit" id="btnAddProfesor" th:value="Adauga" />
-
-		</fieldset>
-	</form>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>

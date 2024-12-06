@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" content="text/html" http-equiv="Content-type">
+<title>Admin</title>
+</head>
+<body>
+	<h1>Welcome Admin</h1>
+	<p>You have administrative privileges.</p>
+	<table>
+		<tr>
+			<td><a th:href="@{/adminprofesorpage}">Profesor</a></td>
+			<td><a th:href="@{/adminstudentpage}">Student</a></td>
+			<td><a th:href="@{/adminmateriepage}">Materie</a></td>
+
+		</tr>
+	</table>
+</body>
+</html>

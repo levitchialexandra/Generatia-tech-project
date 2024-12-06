@@ -5,41 +5,7 @@
 <title>Student</title>
 </head>
 <body>
-	<p th:text="|Studentii sunt: ${students}|" />
-	<form action="#" th:action="@{/studentAdd}" th:object="${student}"
-		method="post">
-
-		<fieldset>
-			<table>
-
-				<tr>
-					<th>ID</th>
-					<td><input th:field="*{id}" /></td>
-				</tr>
-				<tr>
-					<th>Nume</th>
-					<td><input th:field="*{nume}" /></td>
-				</tr>
-				<tr>
-					<th>Prenume</th>
-					<td><input th:field="*{prenume}" /></td>
-				</tr>
-				<tr>
-					<th>Clasa</th>
-					<td><input th:field="*{clasa}" /></td>
-				</tr>
-				<tr>
-					<th>Nr matricol</th>
-					<td><input th:field="*{nrMatricol}" /></td>
-				</tr>
-
-				<tr>
-					<th>CNP</th>
-					<td><input th:field="*{cnp}" /></td>
-				</tr>
-			</table>
-			<input type="submit" id="btnAddElev" th:value="Adauga" />
-		</fieldset>
-	</form>
+	<h1>Welcome Student</h1>
+	<p>You have student privileges.</p>
 </body>
 </html>

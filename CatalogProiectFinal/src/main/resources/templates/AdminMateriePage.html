@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" content="text/html" http-equiv="Content-type">
+</head>
+<body>
+	<p th:text="|Materiile sunt: ${materii}|" />
+	<table>
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+			</tr>
+		</thead>
+		<tr th:each="materie : ${materii}">
+			<td th:text="${materie.subject_id}"></td>
+			<td th:text="${materie.denumire}"></td>
+		</tr>
+
+	</table>
+	<form action="#" th:action="@{/materieAdd}" th:object="${materie}"
+		method="post">
+		<fieldset>
+			<table>
+				<tr>
+					<th>Nume materie</th>
+					<td><input th:field="*{denumire}" /></td>
+				</tr>
+
+			</table>
+			<input type="submit" id="btnAddMaterie" th:value="Adauga" />
+
+		</fieldset>
+</body>
+</html>

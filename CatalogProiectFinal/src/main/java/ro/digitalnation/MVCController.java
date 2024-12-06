@@ -30,13 +30,13 @@ Integer id=0;
 				
 	}
 	
-	@PostMapping("studentAdd")
-	public String StudentAdd(@ModelAttribute Student student, Model model) {
-		model.addAllAttributes(students);
-		students.add(student );
-		
-		return "redirect:students";
-	}
+	/*
+	 * @PostMapping("studentAdd") public String StudentAdd(@ModelAttribute Student
+	 * student, Model model) { model.addAllAttributes(students);
+	 * students.add(student );
+	 * 
+	 * return "redirect:students"; }
+	 */
 	
 	
 }

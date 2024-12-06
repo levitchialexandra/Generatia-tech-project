@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lista Elevi</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+</head>
+<body>
+
+	<div class="container my-5">
+		<h2 class="text-center">Lista Elevi</h2>
+
+		<!-- Mesaj de succes sau eroare -->
+		<div th:if="${successMessage}" class="alert alert-success"
+			th:text="${successMessage}"></div>
+		<div th:if="${errorMessage}" class="alert alert-danger"
+			th:text="${errorMessage}"></div>
+		<!-- Formular pentru căutarea elevilor după clasa -->
+		<form th:action="@{/search}" method="post">
+			<div class="mb-3">
+				<label for="clasa" class="form-label">Selectează Clasa</label> <select
+					onchange="this.form.submit()" class="form-control" id="grade"
+					name="clasa">
+					<option value="">Selectează clasele</option>
+					<option th:each="grade : ${grades}" th:value="${grade}"
+						th:selected="${grade == selectedGrade}" th:text="${grade}"></option>
+				</select>
+			</div>
+			<!--  	<button type="submit" class="btn btn-primary">Filtrare dupa clasa</button>-->
+		</form>
+		<div th:if="${#lists.isEmpty(students)}">
+			<p>Nu sunt elevi de afisat.</p>
+		</div>
+		<!-- Tabel cu elevi -->
+		<th:block th:if="${!#lists.isEmpty(students)}">
+			<table class="table table-bordered table-striped">
+				<thead class="table-dark">
+					<tr>
+						<th>ID</th>
+						<th>Nume</th>
+						<th>Prenume</th>
+						<th>Clasa</th>
+						<th>Note</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- Iterăm prin lista de elevi -->
+					<tr th:each="student : ${students}">
+						<td th:text="${student.id}"></td>
+						<td th:text="${student.nume}"></td>
+						<td th:text="${student.prenume}"></td>
+						<td th:text="${student.clasa}"></td>
+						<td>
+							<ul>
+								<li th:each="note : ${student.notes}">Materie: <span
+									th:text="${note.subject.denumire}"></span> Nota: <span
+									th:text="${note.grade}"></span> - Data: <span
+									th:text="${note.date}"></span> <br>Observații: <span
+									th:text="${note.observations}"></span>
+								</li>
+							</ul>
+						</td>
+						<td>
+							<!-- Buton pentru a adăuga o notă pentru acest elev -->
+							<button class="btn btn-primary"
+								th:attr="onclick='showGradeForm(' + ${student.id} + ')'">Adaugă
+								Notă</button>
+						</td>
+
+					</tr>
+				</tbody>
+			</table>
+		</th:block>
+		<!-- Formular pentru adăugarea notei -->
+		<div th:each="student : ${students}">
+			<form th:id="'gradeFormForStudent' + ${student.id}"
+				th:action="@{/add-grade}" method="post" style="display: none;"
+				class="border p-4 rounded bg-light">
+				<input type="hidden" name="studentId" th:value="${student.id}" />
+
+				<div class="mb-3">
+					<label for="subject" class="form-label">Selectează Materia</label>
+					<select name="subjectId" class="form-select" required>
+						<option th:each="subject : ${subjects}"
+							th:value="${subject.denumire}" th:text="${subject.denumire}"></option>
+					</select>
+				</div>
+
+				<div class="mb-3">
+					<label for="grade" class="form-label">Nota</label> <input
+						type="number" name="grade" class="form-control" min="1" max="10"
+						required />
+				</div>
+
+				<div class="mb-3">
+					<label for="date" class="form-label">Data</label> <input
+						type="date" name="date" class="form-control" required />
+				</div>
+
+				<div class="mb-3">
+					<label for="observations" class="form-label">Observații</label>
+					<textarea name="observations" class="form-control" rows="4"></textarea>
+				</div>
+
+				<button type="submit" class="btn btn-success">Adaugă Notă</button>
+			</form>
+		</div>
+
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script>
+		// Script pentru a deschide formularul de adăugare a notei
+		function showGradeForm(studentId) {
+			document.getElementById('gradeFormForStudent' + studentId).style.display = 'block';
+
+		}
+	</script>
