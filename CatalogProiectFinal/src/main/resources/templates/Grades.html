@@ -13,9 +13,21 @@
 	<div th:if="${message != null}" class="alert alert-success">
 		<p th:text="${message}"></p>
 	</div>
-	<form  method="get" th:action="@{/class/{clasa}/students(clasa=${student.clasa})}">
-		<button class="btn btn-secondary back-button" type="submit">Vezi Studenții din Clasa <span th:text="${student.clasa}"></span></button>
-	</form>
+
+	<div style="display: flex;">
+		<form method="get"
+			th:action="@{/class/{clasa}/studentsGr(clasa=${student.clasa})}"
+			style="margin-right: 10px">
+			<button class="btn btn-secondary back-button" type="submit">
+				Vezi Studenții din Clasa <span th:text="${student.clasa}"></span>
+			</button>
+
+		</form>
+		<form method="get" th:action="@{/profesorstudents}">
+			<button class="btn btn-secondary back-button" type="submit">Vezi
+				toti Studenții</button>
+		</form>
+	</div>
 	<div class="container mt-5">
 		<h2 th:text="'Note pentru ' + ${student.FullName()}"
 			class="text-center mb-4"></h2>
@@ -52,16 +64,17 @@
 		<div style="width: 100%">
 			<div style="float: right; width: 45%;" id="edit-form-container"
 				th:if="${showEditForm}">
-				<h3 th:text="'Editare nota '" class="text-left mb-4"></h3>
+				<h4 th:text="'Editare nota pentru '+ ${note.subject.denumire}" class="text-left mb-4"></h4>
 				<div style="max-width: 300px">
 					<form method="post"
 						th:action="@{/note/{noteId}/update/{studentId}(noteId=${selectedNoteId}, studentId=${student.id})}">
 
 						<label for="grade">Noua Notă:</label> <input type="number"
 							step="1" name="grade" id="grade" required min="1" max="10"
-							th:value="${note.grade}" class="form-control" /> <input
-							type="text" name="observations" th:value="${note.observations}"
-							class="form-control" id="observations" /> <input type="date"
+							th:value="${note.grade}" class="form-control" /> 
+							<label for="grade">Observatii:</label> <input
+							type="text" name="observations" th:value="'Modificare '+ ${note.observations}"
+							class="form-control" id="observations" /> <label for="grade">Data:</label><input type="date"
 							name="date" class="form-control" required id="date"
 							th:value="${note.date}" />
 						<button type="submit" class="btn btn-success">Salvează
