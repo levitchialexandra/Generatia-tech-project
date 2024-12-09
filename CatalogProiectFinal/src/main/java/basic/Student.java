@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 @Entity
 public class Student {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String nume;
 	private String prenume;
@@ -15,16 +15,20 @@ public class Student {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Note> notes;
+	@OneToOne
+	@JoinColumn(name = "app_user_id")
+	private AppUser appUser;
 
 	public Student() {
 	}
 
-	public Student(Long id, String nume, String prenume, String clasa) {
+	public Student(Long id, String nume, String prenume, String clasa, AppUser appUser) {
 		super();
 		this.id = id;
 		this.nume = nume;
 		this.prenume = prenume;
 		this.clasa = clasa;
+		this.appUser=appUser;
 	}
 
 	public String FullName() {
@@ -71,6 +75,14 @@ public class Student {
 		this.notes = notes;
 	}
 
+	public AppUser getAppUser() {
+		return appUser;
+	}
+
+	public void setAppUser(AppUser appUser) {
+		this.appUser = appUser;
+	}
+
 	public void updateNota(Long notaId, Double newValoare) {
 		for (Note nota : notes) {
 			if (nota.getId().equals(notaId)) {
@@ -82,26 +94,26 @@ public class Student {
 
 	public void updateNota(Long notaId, Note newValoare) {
 		for (Note nota : notes) {
-			
+
 			if (nota.getId().equals(notaId)) {
-				
+
 				nota.setGrade(newValoare.getGrade());
 				nota.setObservations(newValoare.getObservations());
 				nota.setDate(newValoare.getDate());
 				break;
 			}
-			
+
 		}
 	}
-	
+
 	public Note getNotaById(Long notaId) {
 		for (Note nota : notes) {
-			
+
 			if (nota.getId().equals(notaId)) {
-				
+
 				return nota;
 			}
-			
+
 		}
 		return new Note();
 	}

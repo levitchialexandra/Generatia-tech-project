@@ -6,29 +6,33 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 @Entity
-public class Profesor  {
+public class Profesor {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String nume;
 	private String prenume;
-	//private List<Materie> materii;
+
+	@OneToOne
+	@JoinColumn(name = "app_user_id")
+	private AppUser appUser;
 
 	public Profesor() {
 
 	}
 
-	public Profesor(Long id, String nume, String prenume, List<Materie> materii) {
+	public Profesor(Long id, String nume, String prenume, AppUser appUser) {
 		super();
 		this.id = id;
 		this.nume = nume;
 		this.prenume = prenume;
-		//this.materii = materii;
+		this.appUser = appUser;
+
 	}
-
-
 
 	@Override
 	public String toString() {
@@ -57,6 +61,14 @@ public class Profesor  {
 
 	public void setPrenume(String prenume) {
 		this.prenume = prenume;
+	}
+
+	public AppUser getAppUser() {
+		return appUser;
+	}
+
+	public void setAppUser(AppUser appUser) {
+		this.appUser = appUser;
 	}
 
 }

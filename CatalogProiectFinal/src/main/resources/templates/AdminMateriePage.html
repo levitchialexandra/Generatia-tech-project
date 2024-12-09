@@ -4,7 +4,7 @@
 <meta charset="UTF-8" content="text/html" http-equiv="Content-type">
 </head>
 <body>
-	<p th:text="|Materiile sunt: ${materii}|" />
+	
 	<table>
 		<thead>
 			<tr>
@@ -13,7 +13,7 @@
 			</tr>
 		</thead>
 		<tr th:each="materie : ${materii}">
-			<td th:text="${materie.subject_id}"></td>
+			
 			<td th:text="${materie.denumire}"></td>
 		</tr>
 

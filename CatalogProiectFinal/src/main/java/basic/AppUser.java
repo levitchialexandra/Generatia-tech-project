@@ -1,30 +1,35 @@
 package basic;
 
 
-import java.util.List;
+import java.util.UUID;
 
 import jakarta.persistence.*;
 
 @Entity
 public class AppUser {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(unique = true)
     private String username;
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Role> roles;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-    // Constructori, Getters și Setters
+    @OneToOne(mappedBy = "appUser", fetch = FetchType.LAZY)
+    private Student student;
+
+    @OneToOne(mappedBy = "appUser", fetch = FetchType.LAZY)
+    private Profesor professor;
     public AppUser() {}
 
-    public AppUser(String username, String password, List<Role> roles) {
+    public AppUser(String username, String password, Role role) {
+    	
         this.username = username;
         this.password = password;
-        this.roles = roles;
+        this.role = role;
     }
 
     public Long getId() {
@@ -51,11 +56,29 @@ public class AppUser {
         this.password = password;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
+    }
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public Profesor getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(Profesor professor) {
+        this.professor = professor;
+    }
+    public enum Role {
+        ADMIN, PROFESSOR, STUDENT
     }
 }
