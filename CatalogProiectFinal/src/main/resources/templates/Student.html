@@ -1,11 +1,80 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ro">
 <head>
-<meta charset="UTF-8" content="text/html" http-equiv="Content-type">
-<title>Student</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Note Student</title>
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	rel="stylesheet">
 </head>
 <body>
-	<h1>Welcome Student</h1>
-	<p>You have student privileges.</p>
+	<div class="container mt-5">
+		<h2>
+			Note pentru Studentul: <span th:text="${student.FullName()}"></span>
+		</h2>
+		<form th:action="@{/studentpage/{studentId}(studentId=${student.id})}"
+			method="get">
+			<div class="form-group">
+
+				<label> <input type="checkbox" name="sortByDate"
+					value="true" th:checked="${filter.sortByDate != null and filter.sortByDate}">
+					Sortează după dată ascendent
+				</label>  <label> <input type="checkbox" name="sortByGrade"
+					value="true" th:checked="${filter.sortByGrade != null and filter.sortByGrade}">
+					Sortează după notă ascendent
+				</label>
+
+			</div>
+			
+			
+			<div class="form-group">
+				<label for="materie">Filtrează după Materie:</label> <select
+					name="materie" class="form-control">
+					<option value="" selected>Selectează materia</option>
+					<th:block th:each="subject : ${subjects}">
+						<option th:value="${subject.denumire}"
+							th:selected="${subject.denumire == filter.subject}"
+							th:text="${subject.denumire}"></option>
+					</th:block>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label for="startDate">Filtrează după Data de Începere:</label> <input
+					type="date" id="startDate" name="startDate" class="form-control"
+					th:value="${filter.startDate}">
+			</div>
+
+			<div class="form-group">
+				<label for="endDate">Filtrează după Data de Sfârșit:</label> <input
+					type="date" id="endDate" name="endDate" class="form-control"
+					th:value="${filter.endDate}">
+			</div>
+
+			<button type="submit" class="btn btn-primary">Aplică
+				Filtrele</button>
+		</form>
+
+		<!-- Tabel cu notele filtrate -->
+		<table class="table table-striped mt-4">
+			<thead>
+				<tr>
+					<th>Materie</th>
+					<th>Notă</th>
+					<th>Data</th>
+					<th>Observații</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="note : ${notes}">
+					<td th:text="${note.subject.denumire}"></td>
+					<td th:text="${note.grade}"></td>
+					<td th:text="${note.date}"></td>
+					<td th:text="${note.observations}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </body>
 </html>

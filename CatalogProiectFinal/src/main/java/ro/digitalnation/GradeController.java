@@ -18,8 +18,6 @@ import basic.*;
 @Controller
 public class GradeController {
 
-	private static final boolean Note = false;
-
 	@Autowired
 	private StudentRepository studentRepository;
 
@@ -39,10 +37,10 @@ public class GradeController {
 	// Vizualizare elevi dintr-o anumită clasă
 	@GetMapping("/class/{clasa}/students")
 	public String showStudents(@RequestParam String clasa, Model model) {
-		System.out.println(clasa);
+
 		List<Student> students = (clasa != null && clasa != "") ? studentRepository.findByClasa(clasa)
 				: (List<Student>) studentRepository.findAll();
-		System.out.println(clasa);
+
 		model.addAttribute("students", students);
 		model.addAttribute("selectedGrade", clasa);
 		model.addAttribute("classRooms", getAvailableClassRooms());
@@ -61,27 +59,26 @@ public class GradeController {
 	}
 
 	@GetMapping("/students/search")
-	public String searchStudents(@RequestParam(value = "query", required = false) String query,
-			@RequestParam(value = "clasa", required = false) String clasa, Model model) {
-		
+	public String searchStudents(@RequestParam String query,
+			@RequestParam String clasa, Model model) {
+
 		List<Student> students;
 		if (query != null && !query.isEmpty() && clasa != null && !clasa.isEmpty()) {
 			students = studentRepository.findByNumeContainingIgnoreCaseOrPrenumeContainingIgnoreCaseAndClasa(query,
 					query, clasa);
 		}
-		
+
 		else if (query != null && !query.isEmpty()) {
 			students = studentRepository.findByNumeContainingIgnoreCaseOrPrenumeContainingIgnoreCase(query, query);
 		}
-		
+
 		else if (clasa != null && !clasa.isEmpty()) {
 			students = studentRepository.findByClasa(clasa);
 		} else {
-			
+
 			students = (List<Student>) studentRepository.findAll();
 		}
 
-		
 		model.addAttribute("students", students);
 		model.addAttribute("query", query);
 		model.addAttribute("clasa", clasa);
@@ -105,6 +102,8 @@ public class GradeController {
 		return "grades";
 	}
 
+	
+
 	@GetMapping("/note/{noteId}/edit/{studentId}")
 	public String editNote(@PathVariable Long noteId, @PathVariable Long studentId, Model model) {
 
@@ -123,9 +122,9 @@ public class GradeController {
 
 	// Adăugare notă pentru un elev și o materie
 	@PostMapping("/student/{studentId}/addGrade")
-	public String addGrade(@PathVariable Long studentId, @RequestParam("subjectId") String subjectId,
-			@RequestParam("grade") Double grade, @RequestParam("observations") String observations,
-			@RequestParam("date") String date) {
+	public String addGrade(@PathVariable Long studentId, @RequestParam String subjectId,
+			@RequestParam Double grade, @RequestParam("observations") String observations,
+			@RequestParam String date) {
 
 		Long stId = Long.valueOf(studentId);
 
