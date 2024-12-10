@@ -9,5 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface MaterieRepository extends CrudRepository<Materie, Long> {
 
 	Optional<Materie> findById(Long subjectId);
+	
 	Optional<Materie> findByDenumire(String subjectId);
 }

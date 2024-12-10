@@ -37,31 +37,8 @@ public class ProfesorController {
 	@Autowired
 	private MaterieRepository materieRepository;
 
-	@Autowired
-	private NoteRepository noteRepository;
+
 	
-	
-	@GetMapping("/adminprofesorpage")
-	public String Profesori(Model model) {
-		model.addAttribute("profesori", pRepo.findAll());
-		// model.addAttribute("materii", )
-		model.addAttribute(new Profesor());
-		return "adminprofesorpage";
-	}
-
-	@PostMapping("profesorAdd")
-	public String ProfesorAdd(@ModelAttribute Profesor profesor, Model model) {
-		model.addAllAttributes(profesori);
-		pRepo.save(profesor);
-
-		return "redirect:adminprofesorpage";
-	}
-
-	@GetMapping("/profesor1")
-	public String ProfesorPage() {
-		return "profesor";
-	}
-
 	@GetMapping("/profesor")
 	public String getStudents(@RequestParam(value = "clasa", required = false) String clasa, Model model) {
 
@@ -82,14 +59,14 @@ public class ProfesorController {
 
 		Student student = studentRepository.findById(studentId).orElseThrow();
 		Materie subject = materieRepository.findByDenumire(subjectId).orElseThrow();
-		// materieRepository.findById(subjectId).orElseThrow();
+		
 		Note note = new Note();
 		note.setGrade(grade);
 		note.setDate(LocalDate.parse(date));
 		note.setObservations(observations);
 		note.setSubject(subject);
 
-		// Adăugăm nota la elev
+		
 		student.getNotes().add(note);
 		studentRepository.save(student);
 

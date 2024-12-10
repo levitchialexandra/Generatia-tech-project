@@ -30,19 +30,9 @@ public class StudentController {
 	@Autowired
 	MaterieRepository matRepo;
 
-	@GetMapping("/adminstudentpage")
-	public String Studenti(Model model) {
-		model.addAttribute("studenti", sRepo.findAll());
-		model.addAttribute(new Student());
-		return "adminstudentpage";
-	}
+	
 
-	@PostMapping("studentAdd")
-	public String studentAdd(@ModelAttribute Student student, Model model) {
-		sRepo.save(student);
-		return "redirect:adminstudentpage";
-	}
-
+	
 	@GetMapping("/studentpageVersion1/{studentId}")
 	public String studentPage(@PathVariable Long studentId, Model model) {
 		Student student = sRepo.findById(studentId).orElse(null);

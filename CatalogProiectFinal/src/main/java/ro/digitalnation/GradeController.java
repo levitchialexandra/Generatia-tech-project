@@ -152,7 +152,7 @@ public class GradeController {
 			@RequestParam("grade") Double grade, @RequestParam("observations") String observations,
 			@RequestParam("date") String date) {
 		Long nId = Long.parseLong(noteId);
-		// Long sId=Long.parseLong(studentId);
+		
 		System.out.println(observations);
 		Student student = studentRepository.findById(studentId).orElse(null);
 		Note note = noteRepository.findById(nId).orElse(null);

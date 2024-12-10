@@ -1,84 +1,101 @@
 package basic;
 
-
-import java.util.UUID;
+import java.util.Collection;
 
 import jakarta.persistence.*;
 
 @Entity
-public class AppUser {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class AppUser  {
 
-    @Column(unique = true)
-    private String username;
-    private String password;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+	@Column(unique = true)
+	private String username;
+	private String password;
 
-    @OneToOne(mappedBy = "appUser", fetch = FetchType.LAZY)
-    private Student student;
+	@Enumerated(EnumType.STRING)
+	private Role role;
 
-    @OneToOne(mappedBy = "appUser", fetch = FetchType.LAZY)
-    private Profesor professor;
-    public AppUser() {}
+	@OneToOne(mappedBy = "appUser", fetch = FetchType.LAZY)
+	private Student student;
 
-    public AppUser(String username, String password, Role role) {
-    	
-        this.username = username;
-        this.password = password;
-        this.role = role;
-    }
+	@OneToOne(mappedBy = "appUser", fetch = FetchType.LAZY)
+	private Profesor professor;
 
-    public Long getId() {
-        return id;
-    }
+	@ElementCollection(fetch = FetchType.EAGER)
+	private Collection<String> roles;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	
+	public AppUser() {
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	public AppUser(String username, String password, Role role) {
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+		this.username = username;
+		this.password = password;
+		this.role = role;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public AppUser(String username, String password, Role role, Student student) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.role = role;
+		this.student = student;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public AppUser(String username, String password, Role role, Profesor profesor) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.role = role;
+		this.professor = profesor;
+	}
 
-    public Role getRole() {
-        return role;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
-    public Student getStudent() {
-        return student;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setStudent(Student student) {
-        this.student = student;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public Profesor getProfessor() {
-        return professor;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public void setProfessor(Profesor professor) {
-        this.professor = professor;
-    }
-    public enum Role {
-        ADMIN, PROFESSOR, STUDENT
-    }
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public Student getStudent() {
+		return student;
+	}
+
+	public void setStudent(Student student) {
+		this.student = student;
+	}
+
+	public Profesor getProfessor() {
+		return professor;
+	}
+
+	public void setProfessor(Profesor professor) {
+		this.professor = professor;
+	}
+
+	public enum Role {
+		ADMIN, PROFESOR, STUDENT
+	}
+
 }
