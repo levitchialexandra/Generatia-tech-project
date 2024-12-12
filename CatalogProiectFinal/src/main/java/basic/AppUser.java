@@ -1,7 +1,5 @@
 package basic;
 
-import java.util.Collection;
-
 import jakarta.persistence.*;
 
 @Entity
@@ -15,8 +13,7 @@ public class AppUser  {
 	private String username;
 	private String password;
 
-	@Enumerated(EnumType.STRING)
-	private Role role;
+	private String role;
 
 	@OneToOne(mappedBy = "appUser", fetch = FetchType.LAZY)
 	private Student student;
@@ -24,34 +21,17 @@ public class AppUser  {
 	@OneToOne(mappedBy = "appUser", fetch = FetchType.LAZY)
 	private Profesor professor;
 
-	@ElementCollection(fetch = FetchType.EAGER)
-	private Collection<String> roles;
-
-	
 	public AppUser() {
 	}
 
-	public AppUser(String username, String password, Role role) {
-
-		this.username = username;
-		this.password = password;
-		this.role = role;
-	}
-
-	public AppUser(String username, String password, Role role, Student student) {
+	public AppUser(Long id, String username, String password, String role, Student student, Profesor professor) {
 		super();
+		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.role = role;
 		this.student = student;
-	}
-
-	public AppUser(String username, String password, Role role, Profesor profesor) {
-		super();
-		this.username = username;
-		this.password = password;
-		this.role = role;
-		this.professor = profesor;
+		this.professor = professor;
 	}
 
 	public Long getId() {
@@ -62,19 +42,27 @@ public class AppUser  {
 		this.id = id;
 	}
 
+	public String getUsername() {
+		return username;
+	}
+
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
-	public Role getRole() {
+	public String getRole() {
 		return role;
 	}
 
-	public void setRole(Role role) {
+	public void setRole(String role) {
 		this.role = role;
 	}
 
@@ -94,8 +82,6 @@ public class AppUser  {
 		this.professor = professor;
 	}
 
-	public enum Role {
-		ADMIN, PROFESOR, STUDENT
-	}
+	
 
 }

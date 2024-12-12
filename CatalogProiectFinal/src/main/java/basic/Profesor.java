@@ -17,7 +17,7 @@ public class Profesor {
 	private String prenume;
 
 	@OneToOne
-	@JoinColumn(name = "app_user_id")
+	@JoinColumn(name = "appUserId")
 	private AppUser appUser;
 
 	public Profesor() {
