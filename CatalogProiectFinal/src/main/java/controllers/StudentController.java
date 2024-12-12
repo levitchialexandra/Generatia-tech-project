@@ -94,7 +94,7 @@ public class StudentController {
 	}
 
 	
-	@GetMapping("/studentpage/{studentId}")
+	@GetMapping("/student/dashboard/{studentId}")
 	public String studentPageCuFiltrare(@PathVariable Long studentId,
 			@RequestParam(required = false) Boolean sortByDate, @RequestParam(required = false) Boolean dateAsc,
 			@RequestParam(required = false) Boolean sortByGrade, @RequestParam(required = false) Boolean gradeAsc,

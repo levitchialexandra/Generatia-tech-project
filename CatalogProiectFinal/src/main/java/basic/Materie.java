@@ -10,13 +10,13 @@ import jakarta.persistence.Id;
 public class Materie {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long subject_id;
+	private Long subjectId;
 	 @Column(unique = true)
 	private String denumire;
 
 	@Override
 	public String toString() {
-		return "Materie [id=" + subject_id + ", denumire=" + denumire + "]";
+		return "Materie [id=" + subjectId + ", denumire=" + denumire + "]";
 	}
 
 	public Materie() {
@@ -25,16 +25,16 @@ public class Materie {
 
 	public Materie(Long id, String denumire) {
 		super();
-		this.subject_id = id;
+		this.subjectId = id;
 		this.denumire = denumire;
 	}
 
 	public long getId() {
-		return subject_id;
+		return subjectId;
 	}
 
 	public void setId(Long id) {
-		this.subject_id = id;
+		this.subjectId = id;
 	}
 
 	public String getDenumire() {

@@ -7,10 +7,19 @@
 <title>Lista Elevilor</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-	<h1>Welcome Teacher</h1>
-	<p>You have teacher privileges.</p>
+<div class="position-fixed" style="top: 10px; right: 10px;">
+
+		<a href="/logout" class="btn btn-danger btn-sm"> <i
+			class="fas fa-sign-out-alt"></i> Logout
+		</a>
+	</div>
+	<h1 style="text-align:center">Welcome Teacher</h1>
+	
 	<div class="container mt-4">
 		<h2>Lista Elevilor</h2>
 		<form th:action="@{/profesor}" method="get">
@@ -41,14 +50,14 @@
 				</tr>
 			</thead>
 			<tbody>
-				<!-- Iterăm prin lista de elevi -->
+				
 				<tr th:each="student : ${students}">
 					<td th:text="${student.id}"></td>
 					<td th:text="${student.nume}"></td>
 					<td th:text="${student.prenume}"></td>
 					<td th:text="${student.clasa}"></td>
 
-					<!-- Afișăm notele deja adăugate pentru elev -->
+					
 					<td>
 						<ul>
 							<li th:each="note : ${student.notes}">Materie: <span

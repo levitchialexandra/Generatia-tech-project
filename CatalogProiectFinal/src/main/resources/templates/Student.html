@@ -7,8 +7,22 @@
 <link
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
 	rel="stylesheet">
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+	rel="stylesheet">
+
 </head>
 <body>
+	<div class="position-fixed" style="top: 10px; right: 10px;">
+
+		<a href="/logout" class="btn btn-danger btn-sm"> <i
+			class="fas fa-sign-out-alt"></i> Logout
+		</a>
+	</div>
 	<div class="container mt-5">
 		<h2>
 			Note pentru Studentul: <span th:text="${student.FullName()}"></span>
@@ -18,16 +32,18 @@
 			<div class="form-group">
 
 				<label> <input type="checkbox" name="sortByDate"
-					value="true" th:checked="${filter.sortByDate != null and filter.sortByDate}">
+					value="true"
+					th:checked="${filter.sortByDate != null and filter.sortByDate}">
 					Sortează după dată ascendent
-				</label>  <label> <input type="checkbox" name="sortByGrade"
-					value="true" th:checked="${filter.sortByGrade != null and filter.sortByGrade}">
+				</label> <label> <input type="checkbox" name="sortByGrade"
+					value="true"
+					th:checked="${filter.sortByGrade != null and filter.sortByGrade}">
 					Sortează după notă ascendent
 				</label>
 
 			</div>
-			
-			
+
+
 			<div class="form-group">
 				<label for="materie">Filtrează după Materie:</label> <select
 					name="materie" class="form-control">

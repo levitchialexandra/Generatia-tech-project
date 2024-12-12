@@ -1,6 +1,5 @@
 package basic;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -68,6 +67,10 @@ public class Profesor {
 
 	public void setAppUser(AppUser appUser) {
 		this.appUser = appUser;
+	}
+
+	public String getFullName() {
+		return nume + " " + prenume;
 	}
 
 }

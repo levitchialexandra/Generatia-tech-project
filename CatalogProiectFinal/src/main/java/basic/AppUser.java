@@ -33,7 +33,11 @@ public class AppUser  {
 		this.student = student;
 		this.professor = professor;
 	}
-
+	
+	public boolean checkPassword(String enteredPassword) {
+        return this.password.equals(enteredPassword); 
+    }
+	
 	public Long getId() {
 		return id;
 	}

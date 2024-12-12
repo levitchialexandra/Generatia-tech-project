@@ -17,7 +17,7 @@ public class Note {
     private String observations;
 
     @ManyToOne
-    @JoinColumn(name = "subject_id")
+    @JoinColumn(name = "subjectid")
     private Materie subject;  
 
     

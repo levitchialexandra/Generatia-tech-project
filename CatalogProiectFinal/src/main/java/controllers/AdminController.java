@@ -113,7 +113,7 @@ public class AdminController {
 	@PostMapping("/admin/student/edit")
 	public String editStudentForm(@ModelAttribute Student studentEdit, Model model,
 			RedirectAttributes redirectAttributes) {
-		System.out.println(studentEdit.getId());
+		
 		if (studentEdit.getId() != null && sRepo.existsById(studentEdit.getId())) {
 			sRepo.save(studentEdit);
 		}
@@ -140,6 +140,7 @@ public class AdminController {
 	@GetMapping("/admin/materiepage")
 	public String Materii(Model model) {
 		model.addAttribute("materii", matRepo.findAll());
+		
 		model.addAttribute(new Materie());
 		return "adminmateriepage";
 
@@ -161,14 +162,18 @@ public class AdminController {
 		model.addAttribute(new Materie());
 		model.addAttribute("materieEdit", mat);		
 		model.addAttribute("showEditForm", true);
-		return "adminstudentpage";
+		return "adminmateriepage";
 	}
 
 	@PostMapping("/admin/materie/edit")
 	public String editMaterieForm(@ModelAttribute Materie materieEdit, Model model,
 			RedirectAttributes redirectAttributes) {
+		Materie mat= matRepo.findByDenumire(materieEdit.getDenumire()).orElse(null);
+		System.out.println( materieEdit.getId());
+		if (materieEdit != null && mat!=null) {
+			materieEdit.setId(mat.getId());
 		
-		if (materieEdit != null && matRepo.existsById(materieEdit.getId())) {
+			materieEdit.setDenumire(materieEdit.getDenumire());
 			matRepo.save(materieEdit);
 		}
 		model.addAttribute("materii", matRepo.findAll());
