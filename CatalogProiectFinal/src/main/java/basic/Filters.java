@@ -8,6 +8,7 @@ public class Filters {
 	public Boolean dateAsc=false;
 	public Boolean sortByGrade=false;
 	public Boolean gradeAsc=false;
+	public Boolean sortBySubject=false;
 	public String subject;
 	public LocalDate startDate;
 	public LocalDate endDate;

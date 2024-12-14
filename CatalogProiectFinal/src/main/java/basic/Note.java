@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 public class Note {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private double grade;
@@ -44,7 +44,11 @@ public class Note {
     public void setDate(LocalDate date) {
         this.date = date;
     }
-
+    
+    public void setDateFromString(String dateString) {
+        this.date = LocalDate.parse(dateString);  
+    }
+    
     public String getObservations() {
         return observations;
     }

@@ -14,7 +14,7 @@
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
 	rel="stylesheet">
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 	<div class="position-fixed" style="top: 10px; right: 10px;">
@@ -27,10 +27,10 @@
 		<h2>
 			Note pentru Studentul: <span th:text="${student.FullName()}"></span>
 		</h2>
-		<form th:action="@{/studentpage/{studentId}(studentId=${student.id})}"
+		<form
+			th:action="@{/student/dashboard/{studentId}(studentId=${student.id})}"
 			method="get">
 			<div class="form-group">
-
 				<label> <input type="checkbox" name="sortByDate"
 					value="true"
 					th:checked="${filter.sortByDate != null and filter.sortByDate}">
@@ -72,7 +72,6 @@
 				Filtrele</button>
 		</form>
 
-		<!-- Tabel cu notele filtrate -->
 		<table class="table table-striped mt-4">
 			<thead>
 				<tr>
@@ -92,5 +91,11 @@
 			</tbody>
 		</table>
 	</div>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

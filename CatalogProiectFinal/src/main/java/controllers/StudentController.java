@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import basic.Filters;
 import basic.Note;
 import basic.Student;
@@ -30,9 +33,6 @@ public class StudentController {
 	@Autowired
 	MaterieRepository matRepo;
 
-	
-
-	
 	@GetMapping("/studentpageVersion1/{studentId}")
 	public String studentPage(@PathVariable Long studentId, Model model) {
 		Student student = sRepo.findById(studentId).orElse(null);
@@ -43,7 +43,6 @@ public class StudentController {
 		return "student";
 	}
 
-	
 	@GetMapping("/noteStudent")
 	public String noteStudent(@RequestParam Long studentId, @RequestParam(required = false) String materie,
 			@RequestParam(required = false) LocalDate startDate, @RequestParam(required = false) LocalDate endDate,
@@ -58,27 +57,23 @@ public class StudentController {
 				boolean filterBySubject = true;
 				boolean filterByDate = true;
 
-				
 				if (materie != null && !materie.trim().isEmpty()) {
 					filterBySubject = note.getSubject() != null && note.getSubject().getDenumire() != null
 							&& note.getSubject().getDenumire().equalsIgnoreCase(materie.trim());
 				}
 
-				
 				if (startDate != null && endDate != null) {
 					System.out.println(note.getDate());
-					filterByDate = note.getDate() != null && !note.getDate().isBefore(startDate) && 
-																									
-																									
-							!note.getDate().isAfter(endDate); 
+					filterByDate = note.getDate() != null && !note.getDate().isBefore(startDate) &&
+
+							!note.getDate().isAfter(endDate);
 				} else if (startDate != null) {
-					filterByDate = note.getDate() != null && !note.getDate().isBefore(startDate); 
-																									
+					filterByDate = note.getDate() != null && !note.getDate().isBefore(startDate);
+
 				} else if (endDate != null) {
-					filterByDate = note.getDate() != null && !note.getDate().isAfter(endDate); 
+					filterByDate = note.getDate() != null && !note.getDate().isAfter(endDate);
 				}
 
-				
 				return filterBySubject && filterByDate;
 			}).collect(Collectors.toList());
 			System.out.println(notes.size());
@@ -93,40 +88,39 @@ public class StudentController {
 		return "student";
 	}
 
-	
 	@GetMapping("/student/dashboard/{studentId}")
 	public String studentPageCuFiltrare(@PathVariable Long studentId,
 			@RequestParam(required = false) Boolean sortByDate, @RequestParam(required = false) Boolean dateAsc,
 			@RequestParam(required = false) Boolean sortByGrade, @RequestParam(required = false) Boolean gradeAsc,
 			@RequestParam(required = false) String materie, @RequestParam(required = false) LocalDate startDate,
-			@RequestParam(required = false) LocalDate endDate, Model model) {
+			@RequestParam(required = false) LocalDate endDate, Model model) throws JsonProcessingException {
 		Student student = sRepo.findById(studentId).orElse(null);
 		List<Note> notes = student.getNotes();
 		if (sortByDate != null && sortByDate) {
-			
-				notes.sort(Comparator.comparing(Note::getDate)); 
-			} else {
-				notes.sort(Comparator.comparing(Note::getDate).reversed()); 
+
+			notes.sort(Comparator.comparing(Note::getDate));
+		} else {
+			notes.sort(Comparator.comparing(Note::getDate).reversed());
 
 		}
 
 		if (sortByGrade != null && sortByGrade) {
-			
-				notes.sort(Comparator.comparingDouble(Note::getGrade)); // Sortare notă ascendentă
-			} else {
-				notes.sort(Comparator.comparingDouble(Note::getGrade).reversed()); // Sortare notă descendentă
+
+			notes.sort(Comparator.comparingDouble(Note::getGrade)); 
+		} else {
+			notes.sort(Comparator.comparingDouble(Note::getGrade).reversed()); 
 		}
 		notes = notes.stream().filter(note -> {
 			boolean filterBySubject = true;
 			boolean filterByDate = true;
-
+			
 			if (materie != null && !materie.trim().isEmpty()) {
 				filterBySubject = note.getSubject() != null && note.getSubject().getDenumire() != null
 						&& note.getSubject().getDenumire().equalsIgnoreCase(materie.trim());
 			}
 
 			if (startDate != null && endDate != null) {
-				System.out.println(note.getDate());
+				
 				filterByDate = note.getDate() != null && !note.getDate().isBefore(startDate) &&
 
 						!note.getDate().isAfter(endDate);

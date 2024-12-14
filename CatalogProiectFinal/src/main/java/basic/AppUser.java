@@ -24,9 +24,9 @@ public class AppUser  {
 	public AppUser() {
 	}
 
-	public AppUser(Long id, String username, String password, String role, Student student, Profesor professor) {
+	public AppUser( String username, String password, String role, Student student, Profesor professor) {
 		super();
-		this.id = id;
+		
 		this.username = username;
 		this.password = password;
 		this.role = role;

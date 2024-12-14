@@ -7,9 +7,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -156,7 +158,7 @@ public class ProfesorController {
 	}
 
 	
-	@PostMapping("/note/{noteId}/update/{studentId}")
+	@PutMapping("/note/{noteId}/update/{studentId}")
 	public String updateGrade(@PathVariable String noteId, @PathVariable Long studentId,
 			@RequestParam Double grade, @RequestParam String observations,
 			@RequestParam String date) {
@@ -183,7 +185,7 @@ public class ProfesorController {
 	}
 
 	
-	@GetMapping("/note/{noteId}/delete")
+	@DeleteMapping("/note/{noteId}/delete")
 	public String deleteGrade(@PathVariable Long noteId, @RequestParam Long studentId,
 			RedirectAttributes redirectAttributes) {
 		if(!CheckIfUserIsLoggedIn()) return "redirect:/login";

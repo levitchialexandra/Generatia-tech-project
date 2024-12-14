@@ -1,58 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0-alpha1/css/bootstrap.min.css"
+	rel="stylesheet">
 
-    <!-- Bootstrap CSS (use a CDN for ease) -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<style>
+.login-container {
+	max-width: 400px;
+	margin: 50px auto;
+	padding: 30px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	background-color: #f9f9f9;
+}
 
-    <!-- Optional custom styles -->
-    <style>
-        .login-container {
-            max-width: 400px;
-            margin: 50px auto;
-            padding: 30px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-        }
-        .login-container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-    </style>
+.login-container h2 {
+	text-align: center;
+	margin-bottom: 20px;
+}
+</style>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login</h2>
-        
-        <!-- Login Form -->
-        <form action="/login" method="post">
-            <!-- Username input -->
-            <div class="form-group">
-                <label for="username">Utilizator</label>
-                <input type="text" class="form-control" id="username" name="username" required>
-            </div>
-              <div class="form-group">
-                <label for="password">Parola</label>
-                <input type="password" class="form-control" id="password" name="password" required>
-            </div>
-            
-            <!-- Login Button -->
-            <button type="submit" class="btn btn-primary btn-block">Login</button>
-        </form>
-        
-        <!-- Error message if login fails -->
-        <div th:if="${param.error}" class="alert alert-danger mt-3" role="alert">
-            Invalid login credentials. Please try again.
-        </div>
-    </div>
+	<div class="login-container">
+		<h2>Login</h2>
 
-    <!-- Bootstrap JS and dependencies (optional for interactive elements) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<form action="/login" method="post">
+			<!-- Username input -->
+			<div class="form-group">
+				<label for="username">Utilizator</label> <input type="text"
+					class="form-control" id="username" name="username" required>
+			</div>
+			<div class="form-group">
+				<label for="password">Parola</label> <input type="password"
+					class="form-control" id="password" name="password" required>
+			</div>
+
+			<button type="submit" class="btn btn-primary btn-block">Login</button>
+		</form>
+
+		<p class="mt-3">
+			<button class="btn btn-link" data-bs-toggle="modal"
+				data-bs-target="#infoModal" id="showModalBtn">Detalii
+				logare</button>
+		</p>
+		<div th:if="${param.error}" class="alert alert-danger mt-3"
+			role="alert">Invalid login credentials. Please try again.</div>
+	</div>
+	<div class="modal fade" id="infoModal" tabindex="-1"
+		aria-labelledby="infoModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="infoModalLabel">Informatii pentru
+						logare</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>Admin- user: <strong>admin</strong> password: <strong>adminpass</strong></p>
+					<p>Profesor- user: <strong>profesor</strong>password: <strong>profesorpass</strong></p>
+					<p>Student- user: <strong>alexandra</strong> password:<strong>alexandrapass</strong></p>
+					<p>Sunt create date de logare si pentru alti studenti, avand
+						formatul NumePrenume, iar parola password123</p>
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal" id="hideModalBtn">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0-alpha1/js/bootstrap.bundle.min.js"></script>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			// Obținem referințele la butonul care deschide modalul și modalul însuși
+			const showModalBtn = document.getElementById('showModalBtn');
+			const hideModalBtn = document.getElementById('hideModalBtn');
+			const modalElement = new bootstrap.Modal(document
+					.getElementById('infoModal'));
+			const buttons = document.getElementsByClassName('btn-close');
+
+			if (showModalBtn) {
+
+				showModalBtn.addEventListener('click', function() {
+					modalElement.show();
+				});
+			}
+			hideModalBtn.addEventListener('click', function() {
+				modalElement.hide();
+			});
+			buttons[0].addEventListener('click', function() {
+				modalElement.hide();
+			});
+		});
+	</script>
 </body>
 </html>

@@ -11,8 +11,21 @@
 <link
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
 	rel="stylesheet">
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+	rel="stylesheet">
 </head>
 <body>
+	<div class="position-fixed" style="top: 10px; right: 10px;">
+
+		<a href="/logout" class="btn btn-danger btn-sm"> <i
+			class="fas fa-sign-out-alt"></i> Logout
+		</a>
+	</div>
 	<div th:if="${message != null}" class="alert alert-success">
 		<p th:text="${message}"></p>
 	</div>
@@ -26,7 +39,7 @@
 			</button>
 
 		</form>
-		<form method="get" th:action="@{/profesorstudents}">
+		<form method="get" th:action="@{/profesorpage}">
 			<button class="btn btn-secondary back-button" type="submit">Vezi
 				toti Studenții</button>
 		</form>
@@ -35,139 +48,144 @@
 		<h2 th:text="'Note pentru ' + ${student.FullName()}"
 			class="text-center mb-4"></h2>
 		<div class="container mt-5">
-			
-		<h3 class="mt-4">Note Existente</h3>
-		<table class="table table-bordered table-striped">
-			<thead>
-				<tr>
-					<th>Materie</th>
-					<th>Notă</th>
-					<th>Observații</th>
-					<th>Data</th>
-					<th>Acțiuni</th>
-				</tr>
-			</thead>
-			<tbody>
-				<th:block th:each="note : ${notes}">
+
+			<h3 class="mt-4">Note Existente</h3>
+			<table class="table table-bordered table-striped">
+				<thead>
 					<tr>
-						<td th:text="${note.subject.denumire}"></td>
-						<td th:text="${note.grade}"></td>
-						<td th:text="${note.observations}"></td>
-						<td th:text="${note.date}"></td>
-						<td><a th:data-id="${note.id}" th:data-value="${note.grade}"
-							th:data-obs="${note.observations}" th:data-dt="${note.date}"
-							class="btn btn-warning edit-button"
-							th:href="@{/note/{noteId}/edit/{studentId}(noteId=${note.id},studentId=${student.id})}">Editează</a>
-							<a
-							th:href="@{/note/{noteId}/delete(noteId=${note.id}, studentId=${student.id})}"
-							class="btn btn-danger">Șterge</a></td>
+						<th>Materie</th>
+						<th>Notă</th>
+						<th>Observații</th>
+						<th>Data</th>
+						<th>Acțiuni</th>
 					</tr>
-				</th:block>
-			</tbody>
-		</table>
-		<div style="width: 100%">
-			<!-- Editare nota -->
-			<div style="float: right; width: 45%;" id="edit-form-container"
-				th:if="${showEditForm}">
-				<h4 th:text="'Editare nota pentru '+ ${note.subject.denumire}"
-					class="text-left mb-4"></h4>
-				<div style="max-width: 300px">
-					<form method="post"
-						th:action="@{/note/{noteId}/update/{studentId}(noteId=${selectedNoteId}, studentId=${student.id})}">
+				</thead>
+				<tbody>
+					<th:block th:each="note : ${notes}">
+						<tr>
+							<td th:text="${note.subject.denumire}"></td>
+							<td th:text="${note.grade}"></td>
+							<td th:text="${note.observations}"></td>
+							<td th:text="${note.date}"></td>
+							<td><a th:data-id="${note.id}" th:data-value="${note.grade}"
+								th:data-obs="${note.observations}" th:data-dt="${note.date}"
+								class="btn btn-warning edit-button" style="float:left; margin-right:5px"
+								th:href="@{/note/{noteId}/edit/{studentId}(noteId=${note.id},studentId=${student.id})}">Editează</a>
+								<form
+									th:action="@{/note/{noteId}/delete(noteId=${note.id}, studentId=${student.id})}"
+									method="POST">
+									<input type="hidden" name="_method" value="DELETE" />
+									<button type="submit" class="btn btn-danger">Șterge</button>
 
-						<label for="grade">Noua Notă:</label> <input type="number"
-							step="1" name="grade" id="grade" required min="1" max="10"
-							th:value="${note.grade}" class="form-control" /> <label
-							for="grade">Observatii:</label> <input type="text"
-							name="observations"
-							th:value="'Modificare '+ ${note.observations}"
-							class="form-control" id="observations" /> <label for="grade">Data:</label><input
-							type="date" name="date" class="form-control" required id="date"
-							th:value="${note.date}" />
-						<button type="submit" class="btn btn-success">Salvează
-							Modificarea</button>
-						<button type="button" id="cancel-edit" class="btn btn-danger">Anulează</button>
-					</form>
+								</form>
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+			<div style="width: 100%">
+
+				<div style="float: right; width: 45%;" id="edit-form-container"
+					th:if="${showEditForm}">
+					<h4 th:text="'Editare nota pentru '+ ${note.subject.denumire}"
+						class="text-left mb-4"></h4>
+					<div style="max-width: 300px">
+						<form method="post"
+							th:action="@{/note/{noteId}/update/{studentId}(noteId=${selectedNoteId}, studentId=${student.id})}">
+							<input type="hidden" name="_method" value="PUT" /> <label
+								for="grade">Noua Notă:</label> <input type="number" step="1"
+								name="grade" id="grade" required min="1" max="10"
+								th:value="${note.grade}" class="form-control" /> <label
+								for="grade">Observatii:</label> <input type="text"
+								name="observations"
+								th:value="'Modificare '+ ${note.observations}"
+								class="form-control" id="observations" /> <label for="grade">Data:</label><input
+								type="date" name="date" class="form-control" required id="date"
+								th:value="${note.date}" />
+							<button type="submit" class="btn btn-success">Salvează
+								Modificarea</button>
+							<button type="button" id="cancel-edit" class="btn btn-danger">Anulează</button>
+						</form>
+					</div>
 				</div>
-			</div>
-			<!-- Adaugare nota -->
-			<div style="float: left; width: 45%">
-				<button onclick="toggleVisibility()" class="btn btn-success">Arată/Ascunde
-					Formular adaugare nota</button>
-				<div style="display: none" id="edit-Form-Add">
-					<!-- Formular pentru adăugarea unei note -->
-					<form method="post"
-						th:action="@{/student/{studentId}/addGrade(studentId=${student.id})}">
-						<input type="hidden" name="studentId" th:value="${student.id}" />
-						<div style="max-width: 300px">
-							<div class="mb-3">
-								<label for="subject" class="form-label">Materia:</label> <select
-									name="subjectId" class="form-select">
-									<th:block th:each="subject : ${subjects}">
-										<option th:value="${subject.denumire}"
-											th:text="${subject.denumire}"></option>
-									</th:block>
-								</select>
-							</div>
 
-							<div class="mb-3">
-								<label for="grade" class="form-label">Notă:</label> <input
-									type="number" name="grade" class="form-control" step="1"
-									required min="1" max="10" />
-							</div>
+				<div style="float: left; width: 45%">
+					<button onclick="toggleVisibility()" class="btn btn-success">Arată/Ascunde
+						Formular adaugare nota</button>
+					<div style="display: none" id="edit-Form-Add">
 
-							<div class="mb-3">
-								<label for="observations" class="form-label">Observații:</label>
-								<input type="text" name="observations" class="form-control" />
-							</div>
+						<form method="post"
+							th:action="@{/student/{studentId}/addGrade(studentId=${student.id})}">
+							<input type="hidden" name="studentId" th:value="${student.id}" />
+							<div style="max-width: 300px">
+								<div class="mb-3">
+									<label for="subject" class="form-label">Materia:</label> <select
+										name="subjectId" class="form-select">
+										<th:block th:each="subject : ${subjects}">
+											<option th:value="${subject.denumire}"
+												th:text="${subject.denumire}"></option>
+										</th:block>
+									</select>
+								</div>
 
-							<div class="mb-3">
-								<label for="date" class="form-label">Data:</label> <input
-									type="date" name="date" class="form-control" required />
+								<div class="mb-3">
+									<label for="grade" class="form-label">Notă:</label> <input
+										type="number" name="grade" class="form-control" step="1"
+										required min="1" max="10" />
+								</div>
+
+								<div class="mb-3">
+									<label for="observations" class="form-label">Observații:</label>
+									<input type="text" name="observations" class="form-control" />
+								</div>
+
+								<div class="mb-3">
+									<label for="date" class="form-label">Data:</label> <input
+										type="date" name="date" class="form-control" required />
+								</div>
 							</div>
-						</div>
-						<button type="submit" class="btn btn-success">Adaugă Notă</button>
-						<button type="button" id="cancel-edit-add" class="btn btn-danger">Anulează</button>
-					</form>
+							<button type="submit" class="btn btn-success">Adaugă
+								Notă</button>
+							
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-	<script>
-		// Afișează formularul de editare când se apasă pe butonul "Editează"
-		function toggleVisibility() {
-			var div = document.getElementById("edit-Form-Add");
-			if (div.style.display === "none") {
-				div.style.display = "block";
-			} else {
-				div.style.display = "none";
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<script>
+			// Afișează formularul de editare când se apasă pe butonul "Editează"
+			function toggleVisibility() {
+				var div = document.getElementById("edit-Form-Add");
+				if (div.style.display === "none") {
+					div.style.display = "block";
+				} else {
+					div.style.display = "none";
+				}
 			}
-		}
 
-		// Anulează editarea
+		
 
-		document
-				.getElementById('cancel-edit')
-				.addEventListener(
-						'click',
-						function() {
-							document.getElementById('edit-form-container').style.display = 'none';
-						});
-		document
-				.getElementById('cancel-edit-add')
-				.addEventListener(
-						'click',
-						function() {
-							document.getElementById('edit-Form-Add').style.display = 'none';
-						});
-	</script>
+			document
+					.getElementById('cancel-edit')
+					.addEventListener(
+							'click',
+							function() {
+								document.getElementById('edit-form-container').style.display = 'none';
+							});
+			document
+					.getElementById('cancel-edit-add')
+					.addEventListener(
+							'click',
+							function() {
+								document.getElementById('edit-Form-Add').style.display = 'none';
+							});
+		</script>
 </body>
 </html>
